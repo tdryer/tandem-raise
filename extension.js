@@ -21,7 +21,7 @@ function onFocusWindowNotify() {
         if (siblingWindow) {
             // Raise the sibling window
             siblingWindow.raise();
-            // Raise the focused window again so it's still on top of the candidate window
+            // Raise the focused window again so it's still on top of the sibling window
             focusedWindow.raise();
         }
     }
