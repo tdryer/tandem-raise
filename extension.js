@@ -27,25 +27,12 @@ function onFocusWindowNotify() {
     }
 }
 
-function getWorkspaceCompat(window) {
-    if (window.get_screen) {
-        // GNOME 3.28
-        let screen = window.get_screen();
-        return screen.get_active_workspace();
-    } else {
-        // GNOME 3.30
-        let display = window.get_display();
-        let workspaceManager = display.get_workspace_manager();
-        return workspaceManager.get_active_workspace();
-    }
-}
-
 function findSiblingWindow(window) {
     // Only vertically maximized windows can have a sibling
     if (window.get_maximized() !== Meta.MaximizeFlags.VERTICAL) {
         return null;
     }
-    let windows = getWorkspaceCompat(window).list_windows();
+    let windows = window.get_display().get_workspace_manager().get_active_workspace();
     for (let candidateWindow of windows) {
         // Only consider other windows
         let isOtherWindow = candidateWindow !== window;
