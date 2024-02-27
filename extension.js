@@ -45,8 +45,6 @@ function findSiblingWindow(window) {
     if (window.get_maximized() !== Meta.MaximizeFlags.VERTICAL) {
         return null;
     }
-    let windowRect = window.get_frame_rect();
-    let workAreaRect = window.get_work_area_current_monitor();
     let windows = getWorkspaceCompat(window).list_windows();
     for (let candidateWindow of windows) {
         // Only consider other windows
@@ -55,30 +53,9 @@ function findSiblingWindow(window) {
         let isSameMonitor = window.get_monitor() === candidateWindow.get_monitor();
         // Only consider vertically maximized windows
         let isVerticallyMaximized = candidateWindow.get_maximized() === Meta.MaximizeFlags.VERTICAL;
-        // Only consider windows that are horizontally tiled
-        let candidateWindowRect = candidateWindow.get_frame_rect();
-        let isHorizontallyTiled = horizontallyTiled(workAreaRect, candidateWindowRect, windowRect);
-        if (isOtherWindow && isSameMonitor && isVerticallyMaximized && isHorizontallyTiled) {
+        if (isOtherWindow && isSameMonitor && isVerticallyMaximized) {
             return candidateWindow;
         }
     }
     return null;
-}
-
-function horizontallyTiled(workAreaRect, aRect, bRect) {
-      let leftRect = aRect;
-      let rightRect = bRect;
-      if (aRect.x > bRect.x) {
-          leftRect = bRect;
-          rightRect = aRect;
-      }
-      return (
-          workAreaRect.x === leftRect.x &&
-          // Work around this being off-by-one with Ubuntu Dock for some reason
-          (
-              leftRect.x + leftRect.width === rightRect.x ||
-              leftRect.x + leftRect.width === rightRect.x + 1
-          ) &&
-          rightRect.x + rightRect.width === workAreaRect.x + workAreaRect.width
-      );
 }
