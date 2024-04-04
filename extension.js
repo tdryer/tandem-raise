@@ -32,7 +32,7 @@ function findSiblingWindow(window) {
     if (window.get_maximized() !== Meta.MaximizeFlags.VERTICAL) {
         return null;
     }
-    let windows = window.get_display().get_workspace_manager().get_active_workspace();
+    let windows = window.get_display().get_workspace_manager().get_active_workspace().list_windows();
     for (let candidateWindow of windows) {
         // Only consider other windows
         let isOtherWindow = candidateWindow !== window;
