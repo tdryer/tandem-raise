@@ -1,17 +1,16 @@
-const Meta = imports.gi.Meta;
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import Meta from 'gi://Meta';
 
-let focusWindowNotifyConnection = null;
+export default class TandemRaiseExtension extends Extension {
+    enable() {
+        this.focusWindowNotifyConnection = global.display.connect(
+            'notify::focus-window', onFocusWindowNotify
+        );
+    }
 
-function init() { }
-
-function enable() {
-    focusWindowNotifyConnection = global.display.connect(
-        'notify::focus-window', onFocusWindowNotify
-    );
-}
-
-function disable() {
-    global.display.disconnect(focusWindowNotifyConnection);
+    disable() {
+        global.display.disconnect(this.focusWindowNotifyConnection);
+    }
 }
 
 function onFocusWindowNotify() {

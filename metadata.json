@@ -3,5 +3,5 @@
     "description": "Raise pairs of tiled windows in tandem.",
     "uuid": "tandem-raise@tomdryer.com",
     "url": "https://github.com/tdryer/tandem-raise",
-    "shell-version": ["3.30", "3.36", "42"]
+    "shell-version": ["46"]
 }
